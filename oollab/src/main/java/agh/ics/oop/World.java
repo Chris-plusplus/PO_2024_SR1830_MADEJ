@@ -7,10 +7,10 @@ public class World {
         System.out.println("Start");
         for(var arg : directions){
             switch (arg){
-                case FORWARD: System.out.println("Zwierzak idzie do przodu"); break;
-                case BACKWARD: System.out.println("Zwierzak idzie do tyłu"); break;
-                case RIGHT: System.out.println("Zwierzak skręca w prawo"); break;
-                case LEFT: System.out.println("Zwierzak skręca w lewo"); break;
+                case FORWARD -> System.out.println("Zwierzak idzie do przodu");
+                case BACKWARD -> System.out.println("Zwierzak idzie do tyłu");
+                case RIGHT -> System.out.println("Zwierzak skręca w prawo");
+                case LEFT -> System.out.println("Zwierzak skręca w lewo");
             }
         }
         System.out.println("Stop");

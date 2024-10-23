@@ -10,10 +10,10 @@ public class OptionsParser {
         int counter = 0;
         for(var arg : args){
             switch (arg){
-                case "f": result[counter++] = MoveDirection.FORWARD; break;
-                case "b": result[counter++] = MoveDirection.BACKWARD; break;
-                case "r": result[counter++] = MoveDirection.RIGHT; break;
-                case "l": result[counter++] = MoveDirection.LEFT; break;
+                case "f" -> result[counter++] = MoveDirection.FORWARD;
+                case "b" -> result[counter++] = MoveDirection.BACKWARD;
+                case "r" -> result[counter++] = MoveDirection.RIGHT;
+                case "l" -> result[counter++] = MoveDirection.LEFT;
             }
         }
         return Arrays.copyOfRange(result, 0, counter);
