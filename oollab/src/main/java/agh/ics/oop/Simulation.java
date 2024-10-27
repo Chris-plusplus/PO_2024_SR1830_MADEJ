@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
-    List<Animal> animals = new ArrayList<>();
-    List<MoveDirection> moves;
+    private List<Animal> animals = new ArrayList<>();
+    private List<MoveDirection> moves;
 
     public Simulation(List<Vector2d> initialPositions, List<MoveDirection> moves){
         // List<T> można modyfikować, niezbędna lokalna kopia
