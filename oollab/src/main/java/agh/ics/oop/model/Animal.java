@@ -1,5 +1,7 @@
 package agh.ics.oop.model;
 
+import java.util.Objects;
+
 public class Animal {
     private MapDirection orientation = MapDirection.NORTH;
     private Vector2d position;
@@ -43,6 +45,6 @@ public class Animal {
     }
 
     boolean isAt(Vector2d position){
-        return this.position.equals(position);
+        return Objects.equals(this.position, position);
     }
 }
