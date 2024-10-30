@@ -11,6 +11,11 @@ public enum MapDirection {
     private static final String SOUTH_STR = "Południe";
     private static final String WEST_STR = "Zachód";
 
+    private static final String NORTH_SHORT_STR = "^";
+    private static final String EAST_SHORT_STR = ">";
+    private static final String SOUTH_SHORT_STR = "v";
+    private static final String WEST_SHORT_STR = "<";
+
     private static final Vector2d NORTH_VEC = new Vector2d(0, 1);
     private static final Vector2d EAST_VEC = new Vector2d(1, 0);
     private static final Vector2d SOUTH_VEC = new Vector2d(0, -1);
@@ -22,6 +27,15 @@ public enum MapDirection {
             case EAST -> EAST_STR;
             case SOUTH -> SOUTH_STR;
             case WEST -> WEST_STR;
+        };
+    }
+
+    public String toShortString() {
+        return switch (this){
+            case NORTH -> NORTH_SHORT_STR;
+            case EAST -> EAST_SHORT_STR;
+            case SOUTH -> SOUTH_SHORT_STR;
+            case WEST -> WEST_SHORT_STR;
         };
     }
 
