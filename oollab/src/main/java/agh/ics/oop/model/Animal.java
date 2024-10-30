@@ -16,24 +16,27 @@ public class Animal {
         this.position = position;
     }
 
-    public void move(MoveDirection direction){
+    public void move(MoveDirection direction, MoveValidator validator){
         switch (direction){
             case LEFT -> this.orientation = this.orientation.previous();
             case RIGHT -> this.orientation = this.orientation.next();
-            case FORWARD -> this.trySetPosition(this.position.add(this.orientation.toUnitVector()));
-            case BACKWARD -> this.trySetPosition(this.position.add(this.orientation.toUnitVector().opposite()));
+            case FORWARD -> this.trySetPosition(this.position.add(this.orientation.toUnitVector()), validator);
+            case BACKWARD -> this.trySetPosition(this.position.add(this.orientation.toUnitVector().opposite()), validator);
         }
     }
 
-    private void trySetPosition(Vector2d newPosition){
-        if (BOUND_LEFT_DOWN.precedes(newPosition) && BOUND_RIGHT_UP.follows(newPosition)){
+    private void trySetPosition(Vector2d newPosition, MoveValidator validator){
+        if (validator.canMoveTo(newPosition)){
             this.position = newPosition;
         }
     }
 
     @Override
     public String toString() {
-        return "%s %s".formatted(position.toString(), orientation.toString());
+        return orientation.toShortString();
+    }
+    public String toLongString() {
+        return "%s %s".formatted(position, orientation.toShortString());
     }
 
     public Vector2d getPosition() {
