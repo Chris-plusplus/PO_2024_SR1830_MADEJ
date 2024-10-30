@@ -8,12 +8,12 @@ public class OptionsParserTest {
     @Test
     public void parseTest() {
         String[] args = {"f", "b", "l", "r", "forward", "up", "BACKWARD", "b", "r", "r", "l", "f"};
-        MoveDirection[] results = OptionsParser.parse(args);
+        var results = OptionsParser.parse(args);
         MoveDirection[] expected = {MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.LEFT, MoveDirection.RIGHT, MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.FORWARD};
 
-        Assertions.assertEquals(results.length, expected.length);
-        for(int i = 0; i != results.length; ++i){
-            Assertions.assertEquals(results[i], expected[i]);
+        Assertions.assertEquals(results.size(), expected.length);
+        for(int i = 0; i != results.size(); ++i){
+            Assertions.assertEquals(results.get(i), expected[i]);
         }
     }
 }
