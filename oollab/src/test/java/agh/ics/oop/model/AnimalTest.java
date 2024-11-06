@@ -6,83 +6,87 @@ import org.junit.jupiter.api.Test;
 public class AnimalTest {
     @Test
     public void upperBoundaryTest(){
+        RectangularMap map = new RectangularMap(5, 5);
         Animal animal = new Animal(new Vector2d(0, 4));
 
-        animal.move(MoveDirection.FORWARD); // 0, 4 ^
+        animal.move(MoveDirection.FORWARD, map); // 0, 4
 
-        Assertions.assertEquals(animal.getPosition().getY(), Animal.BOUND_RIGHT_UP.getY());
+        Assertions.assertEquals(animal.getPosition().getY(), map.getUpperRightCorner().getY());
     }
     @Test
     public void lowerBoundaryTest(){
+        RectangularMap map = new RectangularMap(5, 5);
         Animal animal = new Animal(new Vector2d(0, 0));
 
-        animal.move(MoveDirection.RIGHT); // >
-        animal.move(MoveDirection.RIGHT); // v
-        animal.move(MoveDirection.FORWARD); // 0, 0 v
+        animal.move(MoveDirection.RIGHT, map);
+        animal.move(MoveDirection.RIGHT, map);
+        animal.move(MoveDirection.FORWARD, map); // 0, 0
 
-        Assertions.assertEquals(animal.getPosition().getY(), Animal.BOUND_LEFT_DOWN.getY());
+        Assertions.assertEquals(animal.getPosition().getY(), map.getLowerLeftCorner().getY());
     }
     @Test
     public void leftBoundaryTest(){
+        RectangularMap map = new RectangularMap(5, 5);
         Animal animal = new Animal(new Vector2d(0, 0));
 
-        animal.move(MoveDirection.LEFT); // <
-        animal.move(MoveDirection.FORWARD); // 0, 0 <
+        animal.move(MoveDirection.LEFT, map);
+        animal.move(MoveDirection.FORWARD, map); // 0, 0
 
-        Assertions.assertEquals(animal.getPosition().getX(), Animal.BOUND_LEFT_DOWN.getX());
+        Assertions.assertEquals(animal.getPosition().getX(), map.getLowerLeftCorner().getX());
     }
     @Test
     public void rightBoundaryTest(){
-        Animal animal = new Animal(new Vector2d(4, 4));
+        RectangularMap map = new RectangularMap(5, 5);
+        Animal animal = new Animal(new Vector2d(4, 0));
 
-        animal.move(MoveDirection.RIGHT); // >
-        animal.move(MoveDirection.FORWARD); // 4, 4 >
+        animal.move(MoveDirection.RIGHT, map);
+        animal.move(MoveDirection.FORWARD, map); // 4, 0
 
-        Assertions.assertEquals(animal.getPosition().getX(), Animal.BOUND_RIGHT_UP.getX());
+        Assertions.assertEquals(animal.getPosition().getX(), map.getUpperRightCorner().getX());
     }
 
     @Test
     public void positionOrientationTest(){
+        RectangularMap map = new RectangularMap(5, 5);
         Animal animal = new Animal(new Vector2d(0, 0));
 
-        animal.move(MoveDirection.RIGHT);   // 0, 0; >
-        animal.move(MoveDirection.FORWARD); // 1, 0; >
-        animal.move(MoveDirection.RIGHT);   // 1, 0; v
-        animal.move(MoveDirection.LEFT);    // 1, 0; >
-        animal.move(MoveDirection.FORWARD); // 2, 0; >
-        animal.move(MoveDirection.BACKWARD);// 1, 0; >
-        animal.move(MoveDirection.BACKWARD);// 0, 0; >
-        animal.move(MoveDirection.BACKWARD);// 0, 0; >
-        animal.move(MoveDirection.LEFT);    // 0, 0; ^
-        animal.move(MoveDirection.LEFT);    // 0, 0; <
-        animal.move(MoveDirection.LEFT);    // 0, 0; v
-        animal.move(MoveDirection.FORWARD); // 0, 0; v
-        animal.move(MoveDirection.RIGHT);   // 0, 0; >
-        animal.move(MoveDirection.FORWARD); // 0, 0; >
-        animal.move(MoveDirection.LEFT);    // 0, 0; v
+        animal.move(MoveDirection.RIGHT, map);   // 0, 0; EAST
+        animal.move(MoveDirection.FORWARD, map); // 1, 0; EAST
+        animal.move(MoveDirection.RIGHT, map);   // 1, 0; SOUTH
+        animal.move(MoveDirection.LEFT, map);    // 1, 0; EAST
+        animal.move(MoveDirection.FORWARD, map); // 2, 0; EAST
+        animal.move(MoveDirection.BACKWARD, map);// 1, 0; EAST
+        animal.move(MoveDirection.BACKWARD, map);// 0, 0; EAST
+        animal.move(MoveDirection.BACKWARD, map);// 0, 0; EAST
+        animal.move(MoveDirection.LEFT, map);    // 0, 0; NORTH
+        animal.move(MoveDirection.LEFT, map);    // 0, 0; WEST
+        animal.move(MoveDirection.LEFT, map);    // 0, 0; SOUTH
+        animal.move(MoveDirection.FORWARD, map); // 0, 0; SOUTH
+        animal.move(MoveDirection.RIGHT, map);   // 0, 0; EAST
+        animal.move(MoveDirection.FORWARD, map); // 0, 0; EAST
+        animal.move(MoveDirection.LEFT, map);    // 0, 0; SOUTH
 
         Assertions.assertEquals(animal.getOrientation(), MapDirection.SOUTH);
-        Assertions.assertEquals(animal.getPosition(), new Vector2d(0, 0));
-
-        // animal znosi jajo
+        Assertions.assertEquals(animal.getPosition(), map.getLowerLeftCorner());
+        // animal lays egg
 
         for(int i = 0; i != 5; ++i){
-            animal.move(MoveDirection.BACKWARD);
+            animal.move(MoveDirection.BACKWARD, map);
         }
-        Assertions.assertEquals(animal.getPosition(), new Vector2d(0, 4));
+        Assertions.assertEquals(animal.getPosition(), new Vector2d(0, map.getHeight() - 1));
         for(int i = 0; i != 5; ++i){
-            animal.move(MoveDirection.RIGHT);
+            animal.move(MoveDirection.RIGHT, map);
         }
         Assertions.assertEquals(animal.getOrientation(), MapDirection.WEST);
         for(int i = 0; i != 5; ++i){
-            animal.move(MoveDirection.BACKWARD);
+            animal.move(MoveDirection.BACKWARD, map);
         }
-        Assertions.assertEquals(animal.getPosition(), new Vector2d(4, 4));
+        Assertions.assertEquals(animal.getPosition(), map.getUpperRightCorner());
         // Assertions.assertTrue(animal.canMoonwalk());
 
-        // piskle wykluwa się
-        Animal chick = new Animal(new Vector2d(0, 0));
-        chick.move(MoveDirection.RIGHT);
+        // chick hatches
+        Animal chick = new Animal(map.getLowerLeftCorner());
+        chick.move(MoveDirection.RIGHT, map);
 
         MoveDirection[] GPSData = {
                 MoveDirection.FORWARD,
@@ -96,14 +100,13 @@ public class AnimalTest {
                 MoveDirection.FORWARD
         };
 
-        // dwa zwierzaki chcą się spotkać
+        // two animals try to meet
         for(MoveDirection move : GPSData){
-            animal.move(move);
-            chick.move(move);
+            animal.move(move, map);
+            chick.move(move, map);
         }
 
-        // zwierzaki powinny być na tej samej pozycji
-        // i powinny się patrzeć na siebie
+        // animals should be at same tile and facing each other
         Assertions.assertEquals(animal.getPosition(), chick.getPosition());
         Assertions.assertEquals(animal.getOrientation().next(), chick.getOrientation().previous());
     }
