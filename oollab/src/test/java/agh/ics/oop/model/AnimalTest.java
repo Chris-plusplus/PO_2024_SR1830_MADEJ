@@ -11,7 +11,7 @@ public class AnimalTest {
 
         animal.move(MoveDirection.FORWARD, map); // 0, 4
 
-        Assertions.assertEquals(animal.getPosition().getY(), map.getUpperRightCorner().getY());
+        Assertions.assertEquals(animal.getPosition().getY(), map.getUpperDrawBound().getY());
     }
     @Test
     public void lowerBoundaryTest(){
@@ -22,7 +22,7 @@ public class AnimalTest {
         animal.move(MoveDirection.RIGHT, map);
         animal.move(MoveDirection.FORWARD, map); // 0, 0
 
-        Assertions.assertEquals(animal.getPosition().getY(), map.getLowerLeftCorner().getY());
+        Assertions.assertEquals(animal.getPosition().getY(), map.getLowerDrawBound().getY());
     }
     @Test
     public void leftBoundaryTest(){
@@ -32,7 +32,7 @@ public class AnimalTest {
         animal.move(MoveDirection.LEFT, map);
         animal.move(MoveDirection.FORWARD, map); // 0, 0
 
-        Assertions.assertEquals(animal.getPosition().getX(), map.getLowerLeftCorner().getX());
+        Assertions.assertEquals(animal.getPosition().getX(), map.getLowerDrawBound().getX());
     }
     @Test
     public void rightBoundaryTest(){
@@ -42,7 +42,7 @@ public class AnimalTest {
         animal.move(MoveDirection.RIGHT, map);
         animal.move(MoveDirection.FORWARD, map); // 4, 0
 
-        Assertions.assertEquals(animal.getPosition().getX(), map.getUpperRightCorner().getX());
+        Assertions.assertEquals(animal.getPosition().getX(), map.getUpperDrawBound().getX());
     }
 
     @Test
@@ -67,7 +67,7 @@ public class AnimalTest {
         animal.move(MoveDirection.LEFT, map);    // 0, 0; SOUTH
 
         Assertions.assertEquals(animal.getOrientation(), MapDirection.SOUTH);
-        Assertions.assertEquals(animal.getPosition(), map.getLowerLeftCorner());
+        Assertions.assertEquals(animal.getPosition(), map.getLowerDrawBound());
         // animal lays egg
 
         for(int i = 0; i != 5; ++i){
@@ -81,11 +81,11 @@ public class AnimalTest {
         for(int i = 0; i != 5; ++i){
             animal.move(MoveDirection.BACKWARD, map);
         }
-        Assertions.assertEquals(animal.getPosition(), map.getUpperRightCorner());
+        Assertions.assertEquals(animal.getPosition(), map.getUpperDrawBound());
         // Assertions.assertTrue(animal.canMoonwalk());
 
         // chick hatches
-        Animal chick = new Animal(map.getLowerLeftCorner());
+        Animal chick = new Animal(map.getLowerDrawBound());
         chick.move(MoveDirection.RIGHT, map);
 
         MoveDirection[] GPSData = {

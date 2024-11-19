@@ -22,8 +22,8 @@ public class RectangularMapTest {
         Assertions.assertTrue(map.place(animal_0_0));
 
         int animalCounter = 0;
-        for(int x = map.getLowerLeftCorner().getX(); x <= map.getUpperRightCorner().getX(); ++x){
-            for(int y = map.getLowerLeftCorner().getY(); y <= map.getUpperRightCorner().getY(); ++y){
+        for(int x = map.getLowerDrawBound().getX(); x <= map.getUpperDrawBound().getX(); ++x){
+            for(int y = map.getLowerDrawBound().getY(); y <= map.getUpperDrawBound().getY(); ++y){
                 if (map.objectAt(new Vector2d(x, y)) != null){
                     ++animalCounter;
                 }
@@ -45,8 +45,8 @@ public class RectangularMapTest {
         Animal secondAnimal_4_0 = new Animal(new Vector2d(4, 0)); // róg mapy x2
 
         boolean anyOccupiedBeforePlacement = false;
-        for(int x = map.getLowerLeftCorner().getX(); x <= map.getUpperRightCorner().getX() && !anyOccupiedBeforePlacement; ++x){
-            for(int y = map.getLowerLeftCorner().getY(); y <= map.getUpperRightCorner().getY() && !anyOccupiedBeforePlacement; ++y){
+        for(int x = map.getLowerDrawBound().getX(); x <= map.getUpperDrawBound().getX() && !anyOccupiedBeforePlacement; ++x){
+            for(int y = map.getLowerDrawBound().getY(); y <= map.getUpperDrawBound().getY() && !anyOccupiedBeforePlacement; ++y){
                 if (map.isOccupied(new Vector2d(x, y))){
                     anyOccupiedBeforePlacement = true;
                 }
@@ -72,8 +72,8 @@ public class RectangularMapTest {
     @Test
     public void moveTest(){
         RectangularMap map = new RectangularMap(5, 5);
-        Animal animal1 = new Animal(map.getLowerLeftCorner());
-        Animal animal2 = new Animal(map.getUpperRightCorner());
+        Animal animal1 = new Animal(map.getLowerDrawBound());
+        Animal animal2 = new Animal(map.getUpperDrawBound());
 
         map.place(animal1);
         map.place(animal2);
@@ -92,7 +92,7 @@ public class RectangularMapTest {
         }
         Assertions.assertEquals(new Vector2d(2, 2), animal1.getPosition());
         Assertions.assertEquals(new Vector2d(3, 2), animal2.getPosition());
-        Assertions.assertFalse(map.isOccupied(map.getLowerLeftCorner()));
-        Assertions.assertFalse(map.isOccupied(map.getUpperRightCorner()));
+        Assertions.assertFalse(map.isOccupied(map.getLowerDrawBound()));
+        Assertions.assertFalse(map.isOccupied(map.getUpperDrawBound()));
     }
 }
