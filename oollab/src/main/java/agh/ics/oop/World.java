@@ -22,7 +22,7 @@ public class World {
 //        System.out.println(animal);
 //        System.out.println();
 
-        WorldMap worldMap = new RectangularMap(5, 5);
+        WorldMap worldMap = new GrassField(5);
 
         List<MoveDirection> directions = OptionsParser.parse(args);
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
