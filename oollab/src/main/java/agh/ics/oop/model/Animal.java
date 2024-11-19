@@ -2,7 +2,7 @@ package agh.ics.oop.model;
 
 import java.util.Objects;
 
-public class Animal {
+public class Animal implements WorldElement {
     private MapDirection orientation = MapDirection.NORTH;
     private Vector2d position;
 
@@ -39,6 +39,7 @@ public class Animal {
         return "%s %s".formatted(position, orientation.toShortString());
     }
 
+    @Override
     public Vector2d getPosition() {
         return position;
     }
@@ -47,7 +48,8 @@ public class Animal {
         return orientation;
     }
 
-    boolean isAt(Vector2d position){
+    @Override
+    public boolean isAt(Vector2d position){
         return Objects.equals(this.position, position);
     }
 }
