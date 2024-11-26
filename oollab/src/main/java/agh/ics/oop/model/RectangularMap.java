@@ -25,10 +25,8 @@ public class RectangularMap extends AbstractWorldMap {
         return bounds.getY() + 1;
     }
 
-    public Vector2d getUpperDrawBound(){
-        return bounds;
-    }
-    public Vector2d getLowerDrawBound(){
-        return LOWER_BOUNDS;
+    @Override
+    public Boundary getCurrentBounds() {
+        return new Boundary(LOWER_BOUNDS, bounds);
     }
 }
