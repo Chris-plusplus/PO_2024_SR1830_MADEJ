@@ -1,9 +1,7 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
-import agh.ics.oop.model.WorldMap;
+import agh.ics.oop.model.*;
+import agh.ics.oop.model.util.ConsoleMapDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,20 +20,26 @@ public class Simulation {
         this.moves = new ArrayList<>(moves);
         for(var initialPosition : initialPositions){
             animals.add(new Animal(initialPosition));
-            worldMap.place(animals.getLast());
+            try {
+                worldMap.place(animals.getLast());
+            }
+            catch (IncorrectPositionException e){
+                System.out.println(e.getMessage());
+            }
         }
-        System.out.println(worldMap.isOccupied(new Vector2d(2, 2)));
-        System.out.println(worldMap.isOccupied(new Vector2d(3, 4)));
     }
 
     public void run(){
+        ConsoleMapDisplay consoleMapDisplay = new ConsoleMapDisplay();
+        worldMap.addListener(consoleMapDisplay);
+
+        // initial state
         System.out.println(worldMap);
         for(int i = 0; i != moves.size(); ++i){
             var animal = animals.get(i % animals.size());
-            String animalStrBefore = animal.toLongString();
-            worldMap.move(animal, moves.get(i));
-            System.out.println("%s %d: {%s} -> {%s}".formatted(ANIMAL_LABEL, i % animals.size(), animalStrBefore, animal.toLongString()));
-            System.out.println(worldMap);
+            worldMap.move(animal, moves.get(i));;
         }
+
+        worldMap.removeListener(consoleMapDisplay);
     }
 }

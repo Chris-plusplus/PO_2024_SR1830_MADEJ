@@ -66,31 +66,23 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public Vector2d getLowerDrawBound() {
+    public Boundary getCurrentBounds() {
         if(updateBounds){
             tryUpdateBounds();
         }
-        return lowerBound;
+        return new Boundary(lowerBound, upperBound);
     }
 
     @Override
-    public Vector2d getUpperDrawBound() {
-        if(updateBounds){
-            tryUpdateBounds();
-        }
-        return upperBound;
-    }
-
-    @Override
-    protected void onPlace() {
-        super.onPlace();
+    protected void onPlace(Vector2d at) {
         updateBounds = true;
+        super.onPlace(at);
     }
 
     @Override
-    protected void onPositionChanged() {
-        super.onPositionChanged();
+    protected void onPositionChanged(Vector2d oldPos, Vector2d newPos) {
         updateBounds = true;
+        super.onPositionChanged(oldPos, newPos);
     }
 
     @Override

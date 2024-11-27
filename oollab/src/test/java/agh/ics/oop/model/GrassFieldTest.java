@@ -16,12 +16,16 @@ public class GrassFieldTest {
         Animal secondAnimal_2_2 = new Animal(new Vector2d(2, 2)); // środek mapy x2
         Animal animal_0_0 = new Animal(new Vector2d(0, 0)); // róg mapy
 
-        Assertions.assertTrue(map.place(animal_5_6));
-        Assertions.assertTrue(map.place(animal_10_minus5));
-        Assertions.assertTrue(map.place(animal_420_minus6));
-        Assertions.assertTrue(map.place(animal_2_2));
-        Assertions.assertFalse(map.place(secondAnimal_2_2));
-        Assertions.assertTrue(map.place(animal_0_0));
+        Assertions.assertDoesNotThrow(() -> {
+            map.place(animal_5_6);
+            map.place(animal_10_minus5);
+            map.place(animal_420_minus6);
+            map.place(animal_2_2);
+            map.place(animal_0_0);
+        });
+        Assertions.assertThrowsExactly(IncorrectPositionException.class, () -> {
+            map.place(secondAnimal_2_2);
+        });
 
         int animalCounter = 0;
         for(int x = 0; x <= 500; ++x){
@@ -64,12 +68,17 @@ public class GrassFieldTest {
         Assertions.assertFalse(anyOccupiedBeforePlacement);
         Assertions.assertEquals(5, grassCount);
 
-        Assertions.assertTrue(map.place(animal_5_6));
-        Assertions.assertTrue(map.place(animal_10_minus5));
-        Assertions.assertTrue(map.place(animal_1_2));
-        Assertions.assertTrue(map.place(animal_2_1));
-        Assertions.assertTrue(map.place(animal_4_0));
-        Assertions.assertFalse(map.place(secondAnimal_4_0));
+        Assertions.assertDoesNotThrow(() -> {
+            map.place(animal_5_6);
+            map.place(animal_10_minus5);
+            map.place(animal_1_2);
+            map.place(animal_2_1);
+            map.place(animal_4_0);
+        });
+
+        Assertions.assertThrowsExactly(IncorrectPositionException.class, () -> {
+            map.place(secondAnimal_4_0);
+        });
 
         Assertions.assertTrue(map.isOccupiedByAnimal(animal_5_6.getPosition()));
         Assertions.assertTrue(map.isOccupiedByAnimal(animal_10_minus5.getPosition()));
@@ -85,8 +94,10 @@ public class GrassFieldTest {
         Animal animal1 = new Animal(new Vector2d(0, 0));
         Animal animal2 = new Animal(new Vector2d(4, 4));
 
-        map.place(animal1);
-        map.place(animal2);
+        Assertions.assertDoesNotThrow(() -> {
+            map.place(animal1);
+            map.place(animal2);
+        });
         map.move(animal2, MoveDirection.LEFT); // (4, 4) >
         map.move(animal2, MoveDirection.LEFT); // (4, 4) v
 
@@ -102,7 +113,7 @@ public class GrassFieldTest {
         }
         Assertions.assertEquals(new Vector2d(2, 2), animal1.getPosition());
         Assertions.assertEquals(new Vector2d(3, 2), animal2.getPosition());
-        Assertions.assertFalse(map.isOccupiedByAnimal(map.getLowerDrawBound()));
-        Assertions.assertFalse(map.isOccupiedByAnimal(map.getUpperDrawBound()));
+        Assertions.assertFalse(map.isOccupiedByAnimal(map.getCurrentBounds().lowerLeft()));
+        Assertions.assertFalse(map.isOccupiedByAnimal(map.getCurrentBounds().upperRight()));
     }
 }
