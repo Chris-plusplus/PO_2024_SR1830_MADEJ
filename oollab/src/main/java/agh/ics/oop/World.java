@@ -2,7 +2,9 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class World {
     private static void run(List<MoveDirection> directions){
@@ -22,8 +24,6 @@ public class World {
 //        System.out.println(animal);
 //        System.out.println();
 
-        WorldMap worldMap = new GrassField(5);
-
         List<MoveDirection> directions;
         try{
              directions = OptionsParser.parse(args);
@@ -33,8 +33,27 @@ public class World {
             return;
         }
         List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
-        Simulation simulation = new Simulation(positions, directions, worldMap);
-        simulation.run();
+
+        List<Simulation> simulations = new ArrayList<>();
+        Random rng = new Random();
+        for(int i = 0; i != 10000; ++i){
+            simulations.add(new Simulation(positions, directions, switch (rng.nextInt(2)){
+                case 0 -> new GrassField(5);
+                case 1 -> new RectangularMap(5, 5);
+                default -> throw new IllegalStateException("impossible xd");
+            }));
+        }
+
+        SimulationEngine simEngine = new SimulationEngine(simulations);
+        simEngine.runAsyncInThreadPool();
+        try {
+            simEngine.awaitSimulationsEnd();
+        } catch (InterruptedException exception) {
+            System.out.println(exception);
+        }
+
+        System.out.println("System zakończył działanie");
+
 
 //        Vector2d position1 = new Vector2d(1,2);
 //        System.out.println(position1);
