@@ -14,6 +14,8 @@ public abstract class AbstractWorldMap implements WorldMap {
     protected static final String ON_ORIENTATION_CHANGED_MESSAGE_PREFIX = "Animal rotated";
     protected static final String ON_POSITION_CHANGED_MESSAGE_PREFIX = "Animal moved";
 
+    protected final UUID uuid = UUID.randomUUID();
+
     @Override
     public WorldElement objectAt(Vector2d position){
         return animalMap.get(position);
@@ -113,5 +115,10 @@ public abstract class AbstractWorldMap implements WorldMap {
         for(var listener : listeners){
             listener.mapChanged(this, message);
         }
+    }
+
+    @Override
+    public UUID getId() {
+        return uuid;
     }
 }
