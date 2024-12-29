@@ -10,8 +10,7 @@ public class OptionsParser {
     private static final String ERROR_MESSAGE = "is an illegal move";
 
     public static List<MoveDirection> parse(String[] args){
-        List<MoveDirection> result = new ArrayList<MoveDirection>();
-        int counter = 0;
+        List<MoveDirection> result = new ArrayList<>();
         for(var arg : args){
             switch (arg){
                 case "f" -> result.add(MoveDirection.FORWARD);

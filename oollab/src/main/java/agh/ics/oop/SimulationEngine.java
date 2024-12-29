@@ -53,4 +53,11 @@ public class SimulationEngine {
             threadPool.awaitTermination(1, TERMINATION_AWAIT_TIME_UNIT);
         }
     }
+
+    public void forceShutdown() {
+        for(var thread : threads){
+            thread.interrupt();
+        }
+        threadPool.shutdownNow();
+    }
 }

@@ -30,14 +30,19 @@ public class Simulation implements Runnable {
     }
 
     public void run(){
-        ConsoleMapDisplay consoleMapDisplay = ConsoleMapDisplay.get();
-        worldMap.addListener(consoleMapDisplay);
+        // ConsoleMapDisplay consoleMapDisplay = ConsoleMapDisplay.get();
+        // worldMap.addListener(consoleMapDisplay);
 
         // initial state
-        System.out.println(worldMap);
+        // System.out.println(worldMap);
         for(int i = 0; i != moves.size(); ++i){
             if(Thread.currentThread().isInterrupted()){
-                worldMap.removeListener(consoleMapDisplay);
+                //worldMap.removeListener(consoleMapDisplay);
+                return;
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
                 return;
             }
 
@@ -45,6 +50,6 @@ public class Simulation implements Runnable {
             worldMap.move(animal, moves.get(i));;
         }
 
-        worldMap.removeListener(consoleMapDisplay);
+        //worldMap.removeListener(consoleMapDisplay);
     }
 }
